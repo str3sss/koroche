@@ -12,7 +12,7 @@ function App() {
   const [link, setLink] = useState(""); // первая ссыока
   const [shortLink, setShortLink] = useState(null); // короткая ссылка
   const [error, setError] = useState(true); // если неправильная ссылка
-  const [сurrentDropdownOption, setCurrentDropdownOption] = useState({ value: 0, label: "поменять время" }); // Для работы со временем
+  const [currentDropdownOption, setCurrentDropdownOption] = useState({ value: 0, label: "поменять время" }); // Для работы со временем
 
   const [uuid, setUUid] = useState(null);
 
@@ -32,17 +32,13 @@ function App() {
 
   async function createShortLinkHandler(e) {
     e.preventDefault();
-    const { uid, alias } = await createShortUrl(link, сurrentDropdownOption?.value);
+    const { uid, alias } = await createShortUrl(link, currentDropdownOption?.value);
     setUUid(uid);
     setShortLink(alias);
-    console.log(shortLink);
   }
-
-  console.log("id", uuid);
 
   async function updateShortLinkHandler(e) {
     e.preventDefault();
-    console.log(uuid, shortLink);
     const newLink = await updateShortUrl(uuid, shortLink);
     setShortLink(newLink);
   }
@@ -50,7 +46,9 @@ function App() {
   return (
     <>
       <header className="header">
-        <h1><a href="/">Koroche</a></h1>
+        <h1>
+          <a href="/">Koroche</a>
+        </h1>
       </header>
       <main>
         <form>
@@ -67,7 +65,7 @@ function App() {
             </>
           ) : (
             <>
-              <label htmlFor="url">Enter URL:</label>
+              <label htmlFor="url">Длинный url:</label>
               <div className="container">
                 <input type="url" name="url" required value={link} onChange={(e) => inputHandler(e.target.value)} />
                 <ReactDropdown
@@ -78,11 +76,10 @@ function App() {
                   placeholderClassName="dropdown_placeholder"
                   required
                   options={DROPDOWN_OPTIONS}
-                  placeholder={сurrentDropdownOption?.label || "select datetime"}
+                  placeholder={currentDropdownOption?.label || "select datetime"}
                 />
               </div>
-              {error && <span style={{ color: "red" }}>incorrect url</span>}
-              <button type="submit" onClick={(e) => createShortLinkHandler(e)} disabled={error}>
+              <button type="submit" className={error ? "invalid" : "valid"} onClick={(e) => createShortLinkHandler(e)} disabled={error}>
                 Сделать короче
               </button>
             </>

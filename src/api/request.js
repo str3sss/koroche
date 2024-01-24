@@ -27,8 +27,8 @@ async function updateShortUrl(uid, alias) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      uid: uid,
-      alias: alias,
+      uid,
+      alias,
     }),
   });
 
