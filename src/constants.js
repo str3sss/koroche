@@ -6,9 +6,9 @@ export const API = "http://83.147.246.113/api/v1/oneways";
  * @param label - текст для пользователя
  */
 export const DROPDOWN_OPTIONS = [
-  { value: 0, label: "0 hours" },
-  { value: 3, label: "3 hours" },
-  { value: 24, label: "day" },
-  { value: 72, label: "3 days" },
-  { value: 168, label: "week" },
+  { value: 1, label: "1ч" },
+  { value: 24, label: "24ч" },
+  { value: 72, label: "3д" },
+  { value: 168, label: "7д" },
+  { value: 0, label: "∞" },
 ];

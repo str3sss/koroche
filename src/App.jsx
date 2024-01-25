@@ -1,7 +1,5 @@
 import { useCallback, useState } from "react";
 import { nanoid } from "nanoid";
-import ReactDropdown from "react-dropdown";
-
 import { createShortUrl, updateShortUrl } from "./api/request";
 import { DROPDOWN_OPTIONS, SHORT_URL_START } from "./constants";
 import { isValidUrl } from "./utils/validator";
@@ -43,6 +41,7 @@ function App() {
     setShortLink(newLink);
   }
 
+  console.log(currentDropdownOption);
   return (
     <>
       <header className="header">
@@ -55,7 +54,7 @@ function App() {
           {shortLink !== null ? (
             <>
               <label>Edit URL:</label>
-              <div className="container">
+              <div className="container-shortURL">
                 {SHORT_URL_START}
                 <input type="text" required value={shortLink} onChange={(e) => setShortLink(e.target.value)} />
               </div>
@@ -65,19 +64,31 @@ function App() {
             </>
           ) : (
             <>
-              <label htmlFor="url">Длинный url:</label>
+              <label htmlFor="url">Введите длинный URL:</label>
               <div className="container">
-                <input type="url" name="url" required value={link} onChange={(e) => inputHandler(e.target.value)} />
-                <ReactDropdown
-                  className="dropdown"
-                  controlClassName="dropdown_control"
-                  menuClassName="dropdown_menu"
-                  onChange={onChangeDropdown}
-                  placeholderClassName="dropdown_placeholder"
+                <input
+                  type="url"
+                  name="url"
                   required
-                  options={DROPDOWN_OPTIONS}
-                  placeholder={currentDropdownOption?.label || "select datetime"}
+                  autoComplete="off"
+                  value={link}
+                  placeholder="Пример: https://длинная-ссылка.рф/"
+                  onChange={(e) => inputHandler(e.target.value)}
                 />
+                <div className="btn-group">
+                  {DROPDOWN_OPTIONS.map((option) => {
+                    return (
+                      <button
+                        key={option.label}
+                        type="button"
+                        className={option.value === currentDropdownOption.value ? "active" : ""}
+                        onClick={() => onChangeDropdown(option)}
+                      >
+                        {option.label}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
               <button type="submit" className={error ? "invalid" : "valid"} onClick={(e) => createShortLinkHandler(e)} disabled={error}>
                 Сделать короче
